@@ -6,27 +6,55 @@ import java.util.HashMap;
 public class Main {
 
 	public static void main(String[] args) {
-		System.out.println(atoi("-110"));
+		System.out.println(itoa(-201234001));
 	}
 	
 	static int atoi(String str) {
 		int ret = 0;
 	
-		int i = 1;
-		int neg = 1;
+		int i = str.length() - 1;
+		int negMultiplier = 1;
+		// Let the while loop know we're dealing with a negative number
+		int stopParsingAt = 0;
+		// base 10 nth digit of the integer
 		int digit = 1;
 		
 		if (str.charAt(0) == '-') {
-			neg = -1;
-			++i;
+			// Multiply final output by -1 to convert to negative
+			negMultiplier = -1;
+			// Stop 1 character early to not parse the '-'
+			++stopParsingAt;
 		}
 		
-		while (i <= str.length()) {
-			ret += digit * (str.charAt(str.length()-i) - (byte) '0');
+		while (i >= stopParsingAt) {
+			ret += digit * (str.charAt(i) - '0');
 			digit *= 10;
-			++i;
+			--i;
 		}
-		return ret*neg;
+		return ret*negMultiplier;
+	}
+	
+	static String itoa(int n) {
+		boolean neg = false;
+		String ret = "";
+		
+		if (n < 0) {
+			neg = true;
+			// Convert back to positive
+			n *= -1;
+		}
+		
+		while (n > 0) {
+			char x = (char) (n % 10 + '0');
+			ret = x + ret;
+			n /= 10;
+		}
+		
+		if (neg) {
+			ret = '-' + ret;
+		}
+		
+		return ret;
 	}
 	
 	// O(n^2) run time, O(1) memory
