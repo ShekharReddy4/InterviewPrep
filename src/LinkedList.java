@@ -5,7 +5,7 @@ public class LinkedList {
 		root = null;
 	}
 
-	public class Node {
+	private class Node {
 		Node next = null;
 		Object data;
 	}

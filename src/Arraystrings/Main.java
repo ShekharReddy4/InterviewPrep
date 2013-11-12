@@ -6,7 +6,37 @@ import java.util.HashMap;
 public class Main {
 
 	public static void main(String[] args) {
-		System.out.println(itoa(-201234001));
+		MyArrayList al = new MyArrayList();
+		al.printList();
+		al.add(new Integer(1));
+		al.add(new Integer(2));
+		al.add(new Integer(3));
+		al.add(new Integer(4));
+		al.add(new Integer(5));
+		al.add(new Integer(6));
+		al.add(new Integer(7));
+		al.add(new Integer(8));
+		al.set(new Integer(-4), 3);
+		al.printList();
+		al.remove(0);
+		al.remove(0);
+		al.printList();
+		
+		MyMap<Integer, String> mm = new MyMap<Integer, String>();
+		mm.add(new Integer(1), "one");
+		mm.add(new Integer(2), "two");
+		mm.add(new Integer(99), "two");
+		mm.add(new Integer(3), "three");
+		mm.add(new Integer(3), "shouldn't work");
+		mm.removeValue("one");
+		mm.removeKey(new Integer(2));
+		mm.printMap();
+		
+		MySet ms = new MySet<String>();
+		ms.add("ASDF");
+		ms.add("asdf");
+		ms.add("ASDF"); // This shouldn't be added again.
+		ms.printList();
 	}
 	
 	static int atoi(String str) {
