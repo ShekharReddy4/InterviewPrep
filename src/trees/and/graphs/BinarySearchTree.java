@@ -2,14 +2,14 @@ package trees.and.graphs;
 
 import linkedlist.Queue;
 
-public class BinaryTree<T> {
+public class BinarySearchTree<T extends Comparable> {
 	public BinaryTreeNode<T> root;
 	
-	public BinaryTree(T rootData) {
+	public BinarySearchTree(T rootData) {
 		root = new BinaryTreeNode<T>(rootData);
 	}
 	
-	private class BinaryTreeNode<T> {
+	private class BinaryTreeNode<T extends Comparable> {
 		private T data;
 		private BinaryTreeNode<T> parent;
 		private BinaryTreeNode<T> left;
@@ -35,18 +35,35 @@ public class BinaryTree<T> {
 		}
 	}
 	
-	boolean balancedAdd(BinaryTreeNode<T> curr, T data) {
-		if (curr.left == null) {
-			BinaryTreeNode<T> addMe = new BinaryTreeNode<T>(data);
-			curr.left = addMe;
-			return true;
-		} else if (curr.right == null) {
-			BinaryTreeNode<T> addMe = new BinaryTreeNode<T>(data);
-			curr.right = addMe;
-			return true;
-		} else {
-			
+	void add(T data) {
+		BinaryTreeNode<T> curr = this.root;
+		BinaryTreeNode<T> parent = this.root;
+		
+		while (curr != null) {
+			if (data.compareTo(curr.data) <= 0) {
+				parent = curr;
+				curr = curr.getLeft();
+			}
+			else {
+				parent = curr;
+				curr = curr.getRight();
+			}
 		}
+		BinaryTreeNode<T> addNode = new BinaryTreeNode<T>(data);
+		// Need to determine if this is the left or right child
+		if (data.compareTo(parent.data) <= 0) {
+			parent.setLeft(addNode);
+		}
+		else {
+			parent.setRight(addNode);
+		}
+	}
+	
+	// If the search tree isn't allowed duplicates because it is a TreeSet...
+	// Note this is extremely bad OOP practice; a different class should
+	// extend this class and override add instead.
+	boolean setAdd() {
+		
 		return false;
 	}
 	
@@ -60,6 +77,11 @@ public class BinaryTree<T> {
 		if (curr.right != null) {
 			breadthTraverse(curr.right, queue);
 		}
+	}
+	
+	int getHeight() {
+		
+		return 0;
 	}
 	
 	void printTree(BinaryTreeNode<T> curr) {
