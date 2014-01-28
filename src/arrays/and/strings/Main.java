@@ -21,7 +21,7 @@ public class Main {
 		al.remove(0);
 		al.remove(0);
 		al.printList();
-		
+
 		MyMap<Integer, String> mm = new MyMap<Integer, String>();
 		mm.add(new Integer(1), "one");
 		mm.add(new Integer(2), "two");
@@ -31,31 +31,33 @@ public class Main {
 		mm.removeValue("one");
 		mm.removeKey(new Integer(2));
 		mm.printMap();
-		
+
 		MySet ms = new MySet<String>();
 		ms.add("ASDF");
 		ms.add("asdf");
 		ms.add("ASDF"); // This shouldn't be added again.
 		ms.printList();
+		
+		perm("abcd", "");
 	}
-	
+
 	static int atoi(String str) {
 		int ret = 0;
-	
+
 		int i = str.length() - 1;
 		int negMultiplier = 1;
 		// Let the while loop know we're dealing with a negative number
 		int stopParsingAt = 0;
 		// base 10 nth digit of the integer
 		int digit = 1;
-		
+
 		if (str.charAt(0) == '-') {
 			// Multiply final output by -1 to convert to negative
 			negMultiplier = -1;
 			// Stop 1 character early to not parse the '-'
 			++stopParsingAt;
 		}
-		
+
 		while (i >= stopParsingAt) {
 			ret += digit * (str.charAt(i) - '0');
 			digit *= 10;
@@ -63,36 +65,36 @@ public class Main {
 		}
 		return ret*negMultiplier;
 	}
-	
+
 	static String itoa(int n) {
 		boolean neg = false;
 		String ret = "";
-		
+
 		if (n < 0) {
 			neg = true;
 			// Convert back to positive
 			n *= -1;
 		}
-		
+
 		while (n > 0) {
 			char x = (char) (n % 10 + '0');
 			ret = x + ret;
 			n /= 10;
 		}
-		
+
 		if (neg) {
 			ret = '-' + ret;
 		}
-		
+
 		return ret;
 	}
-	
+
 	// O(n^2) run time, O(1) memory
 	static char findFstNonRptChar(String str) {
 		if (str.isEmpty() || str == null) {
 			throw new IllegalArgumentException();
 		}
-		
+
 		for (int i = 0; i < str.length(); i++) {
 			for (int j = 0; j < str.length(); j++) {
 				// Special case of when i has reached the end of the
@@ -119,14 +121,14 @@ public class Main {
 		}
 		return '\0';
 	}
-	
+
 	// Can use mutable integer wrapper class to make even faster
 	// O(n) run time, O(n) memory
 	static char hashFindFstNonRptChar(String str) {
 		if (str == null || str.isEmpty()) {
 			throw new IllegalArgumentException();
 		}
-		
+
 		HashMap<Character, Integer> hashtable = new HashMap<Character, Integer>();
 		for (int i = 0; i < str.length(); i++) {
 			Integer count = hashtable.get(str.charAt(i));
@@ -140,9 +142,9 @@ public class Main {
 				hashtable.put(str.charAt(i), count+1);
 				//System.out.println("Put in '" + str.charAt(i) + "' with count " + (count+1));
 			}
-			
+
 		}
-		
+
 		for (int i = 0; i < str.length(); i++) {
 			if (hashtable.get(str.charAt(i)) == 1) {
 				return str.charAt(i);
@@ -150,7 +152,7 @@ public class Main {
 		}
 		return '\0';
 	}
-	
+
 	// O(nm) run time, O(1) memory (Assuming only standard 128/256 chars are used)
 	static String removeChars(String str, String remove) {
 		if (str.isEmpty() || str == null) { throw new IllegalArgumentException(); }
@@ -170,19 +172,19 @@ public class Main {
 						temp += str.charAt(i);
 					}
 				}
-				
+
 			}
 		}
 		str = temp;
 		return str;
 	}
-	
+
 	// Uses array indexer to reduce run time
 	static String hashRemoveChars(String str, String remove) {
 		if (str.isEmpty() || str == null) { throw new IllegalArgumentException(); }
 		if (remove.isEmpty() || remove == null) { return str; }
 		String ret = "";
-		
+
 		boolean[] lookUpArray = new boolean[256];
 		for (int i = 0; i < remove.length(); ++i) {
 			lookUpArray[(int) remove.charAt(i)] = true;
@@ -197,26 +199,26 @@ public class Main {
 		}
 		return ret;
 	}
-	
+
 	// Reverses the order of words only. 
 	static String reverseWords(String str) {
 		if (str == null) {
 			throw new IllegalArgumentException();
 		}
-		
+
 		return reverseEachWord(reverseString(str));
 	}
-	
+
 	// Preserves word order, but each word is reversed
 	static String reverseEachWord(String str) {
 		if (str == null) {
 			throw new IllegalArgumentException();
 		}
-		
+
 		String ret = "";
 		int i = 0;
 		int j = 0;
-		
+
 		while (j < str.length()) {
 			if (breakWord(str.charAt(j))) {
 				ret+=reverseString(str.substring(i, j));
@@ -225,20 +227,20 @@ public class Main {
 			}
 			++j;
 		}
-		
+
 		if (j == str.length()) {
 			ret+=reverseString(str.substring(i, j));
 		}
-		
+
 		return ret;
 	}
-	
+
 	// Modify as necessary to fit the definition of break characters	
 	private static boolean breakWord(char c) {
 		if (c == ' ' || c == '\t' || c == '\n' || c == '\0') { return true; }
 		return false;
 	}
-	
+
 	// Reverses the entire string
 	static String reverseString(String str) {
 		if (str == null) {
@@ -255,5 +257,17 @@ public class Main {
 			--j;
 		}
 		return new String(ret);
+	}
+	
+	static void perm(String s, String construct) {
+		if (s.length() == 1) 
+			System.out.println( construct + s.charAt(0));
+		else {
+			for (int i = 0; i < s.length(); i++) {
+				String copy = s;
+				copy = s.substring(0, i) + s.substring(i+1, s.length());
+				perm(copy, construct + s.charAt(i));
+			}
+		}
 	}
 }
