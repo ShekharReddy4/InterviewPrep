@@ -38,7 +38,9 @@ public class Main {
 		ms.add("ASDF"); // This shouldn't be added again.
 		ms.printList();
 		
-		perm("abcd", "");
+		spiralMatrix(3);
+		
+		permCode("1123", 0, "");
 	}
 
 	static int atoi(String str) {
@@ -270,4 +272,77 @@ public class Main {
 			}
 		}
 	}
+	
+	static void spiralMatrix(int n) {
+		if (n <= 0) {
+			System.out.println("Input has to be bigger than 0. Passed in: " + n);
+		}
+		int[][] arr = new int[n][n];
+		int[] dir = {1, 0};
+		int x = 0; int y = 0;
+		
+		for (int i = n*n; i > 0; --i) {
+			arr[y][x] = i;
+			if (x + dir[0] >= n || y + dir[1] >= n || 
+				x + dir[0] < 0 || y + dir[1] < 0 ||
+				arr[y + dir[1]][x + dir[0]] != 0) {
+				dir = changeDir(dir);
+			}
+			
+			x += dir[0];
+			y += dir[1];
+		}
+		
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < n; j++) {
+				System.out.print(arr[i][j] + " ");
+			}
+			System.out.println();
+		}
+	}
+	
+	static int[] changeDir(int[] dir) {
+		int[] ret = new int[2];
+		if (dir[0] == 1) {
+			ret[0] = 0; ret[1] = 1;
+		}
+		if (dir[0] == -1) {
+			ret[0] = 0; ret[1] = -1;
+		}
+		if (dir[1] == 1) {
+			ret[0] = -1; ret[1] = 0;
+		} 
+		if (dir[1] == -1) {
+			ret[0] = 1; ret[1] = 0;
+		}
+		return ret;
+	}
+	
+	// Like perm() but instead of a string of letters, we're given a string of
+	// numbers, where 1 = a, 2 = b, 3 = c ... 26 = z and generate all possible
+	// permutations from that
+	// Assume only string of integers are passed in
+	static void permCode(String input, int i, String construct) {
+		if (i == input.length()) {
+			System.out.println(construct);
+		} else if (i == input.length() - 1) {
+			System.out.println(construct + validLetter("" + input.charAt(i)));
+		} else {
+			permCode(input, i+1, construct + validLetter("" + input.charAt(i)));
+			
+			if (i <= input.length() - 2 && validLetter(input.substring(i, i+2)) != null) {
+				permCode(input, i+2, construct + validLetter(input.substring(i, i+2)));
+			}
+		}
+	}
+	
+	static String validLetter(String s) {
+		if (Integer.parseInt(s) <= 26) {
+			char c = (char) ((char) Integer.parseInt(s) + 'a' - 1);
+			return "" + c;
+		}
+		return null;
+	}
+	
+	
 }
