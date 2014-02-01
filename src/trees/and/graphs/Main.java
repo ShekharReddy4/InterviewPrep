@@ -28,6 +28,8 @@ public class Main {
 		//BST.inorderTraversal(bst);
 		//BST.postorderTraversal(bst);
 		System.out.println( BST.getHeight(bst) );
+		
+		System.out.println( bt.isBST(bt.root));
 	}
 
 }

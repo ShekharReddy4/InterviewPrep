@@ -95,4 +95,16 @@ public class BinarySearchTree<T extends Comparable> {
 			printTree(curr.right);
 		}
 	}
+	
+	boolean isBST(BinaryTreeNode<Integer> n) {
+		if (n == null) {
+			return true;
+		} else {
+			if (n.left.data > n.data && n.right.data < n.data) {
+				return false;
+			}
+			return isBST(n.left) && isBST(n.right); 
+		}
+		
+	}
 }

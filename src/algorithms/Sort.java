@@ -4,59 +4,43 @@ import java.util.Arrays;
 
 public class Sort {
 	
-	static int[] mergeSort(int[] data) {
-		if (data.length > 1) {
-			int q = data.length / 2;
+	static void mergeSort(int[] arr) {
+		if (arr.length == 1) {
+			return;
+		} else {
+			int mid = arr.length / 2;
 			
-			int[] left = Arrays.copyOfRange(data, 0, q);
-			int[] right = Arrays.copyOfRange(data, q, data.length);
-			
+			int[] left = Arrays.copyOfRange(arr, 0, mid);
 			mergeSort(left);
+			int[] right = Arrays.copyOfRange(arr, mid, arr.length);
 			mergeSort(right);
 			
-			data = merge(data, left, right);
+			merge(arr, left, right);
 		}
-		return data;
 	}
 	
-	private static int[] merge(int[] data, int[] l, int[] r) {
-		int mergeLength = l.length + r.length;
-		int[] mergedArr = new int[mergeLength];
+	private static void merge(int[] arr, int[] left, int[] right) {
+		int li = 0; int ri = 0; int ai = 0;
 		
-		int i, li, ri;
-		i=li=ri=0;
-		
-		while ( i < mergeLength) {
-			if ((li < l.length) && (ri < r.length)) {
-				if (l[li] < r[ri]) {
-					data[i] = l[li];
-					++i;
-					++li;
-				}
-				else {
-					data[i] = r[ri];
-					++i;
-					++ri;
-				}
+		while (li < left.length && ri < right.length) {
+			if (left[li] <= right[ri]) {
+				arr[ai] = left[li++];
+			} else {
+				arr[ai] = right[ri++];
 			}
-			else {
-				if (li >= l.length) {
-					while (ri < r.length) {
-						data[i] = r[ri];
-						++i;
-						++ri;
-					} 
-				}
-				if (ri >= r.length) {
-					while (li < l.length) {
-						data[i] = l[li];
-						++i;
-						++li;
-					}
-				}
-			}
+			++ai;
 		}
 		
-		return mergedArr;
+		if (li == left.length) {
+			while (ri < right.length) {
+				arr[ai] = right[ri++];
+				++ai;
+			}
+		} else {
+			while (li < left.length) {
+				arr[ai] = left[li++];
+				++ai;
+			}
+		}
 	}
 }

@@ -342,7 +342,5 @@ public class Main {
 			return "" + c;
 		}
 		return null;
-	}
-	
-	
+	}	
 }

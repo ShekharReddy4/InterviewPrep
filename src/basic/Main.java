@@ -3,6 +3,7 @@ package basic;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.net.URL;
+import java.util.HashSet;
 
 public class Main {
 
@@ -19,6 +20,11 @@ public class Main {
 		System.out.println(findMax(array));
 		
 		System.out.println(formatRGB(255, 0, 122));
+		
+		int[] arr = {1, 2, 3, 4, 5, 6, 8, 9, 0, 6};
+		System.out.println(dupe(arr));
+		
+		System.out.println(newtonSqrt(612));
 	}
 
 	
@@ -101,5 +107,33 @@ public class Main {
 	
 	static String formatRGB(int r, int g, int b) {
 		return String.format("%02X%02X%02X", r, g, b);
+	}
+	
+	
+	// Facebook stuff
+	// Return if an array has a duplicate
+	static boolean dupe(int[] arr) {
+		HashSet<Integer> set = new HashSet<Integer>();
+		
+		for (int i = 0; i < arr.length; ++i) {
+			if (!set.contains(arr[i])) {
+				 set.add(arr[i]);
+			} else {
+				return true;
+			}
+			
+		}
+		return false;
+	}
+	
+	static double newtonSqrt(double x) {
+		int i = 0;
+		double guess = 10;
+		double accuracy = 0.0000000001;
+		
+		while (guess*guess >= x+accuracy || guess*guess <= x-accuracy) {
+			guess = guess - (guess*guess-x)/ (2*guess);
+		}
+		return guess;
 	}
 }
