@@ -127,12 +127,11 @@ public class Main {
 	}
 	
 	static double newtonSqrt(double x) {
-		int i = 0;
 		double guess = 10;
 		double accuracy = 0.0000000001;
 		
 		while (guess*guess >= x+accuracy || guess*guess <= x-accuracy) {
-			guess = guess - (guess*guess-x)/ (2*guess);
+			guess = guess - (guess*guess-x)/(2*guess);
 		}
 		return guess;
 	}

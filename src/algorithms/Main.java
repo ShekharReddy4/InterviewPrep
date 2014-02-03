@@ -1,7 +1,6 @@
 package algorithms;
 
 import trees.and.graphs.BST;
-import trees.and.graphs.BinarySearchTree;
 
 public class Main {
 

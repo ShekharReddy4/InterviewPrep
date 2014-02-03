@@ -1,112 +1,112 @@
 package trees.and.graphs;
 
-// BinarySearchTree.java took an approach of defining a private Node class
-// and having a wrapper class around it. Initially I thought it was more
-// intuitive to use, but it restricted how I can use the data structure.
-// Since a tree is a recursive structure, and a subtree should have access
-// to all of the supertree's methods, it makes more sense to implement 
-// as I've done here
+import java.util.LinkedList;
+import java.util.NoSuchElementException;
+
 public class BST<T extends Comparable> {
-	T data;
-	BST left;
-	BST right;
-	BST parent;
+	Node root;
+	Node lastVisited;
 	
-	public BST(T data) {
-		this.data = data;
-		left = null;
-		right = null;
-		parent = null;
+	BST() {
+		root = null;
 	}
 	
-	void insert(BST node, T data) {
-		if (data.compareTo(node.data) <= 0) {
-			if (node.left == null) {
-				node.left = new BST(data);
+	class Node {
+		Node left;
+		Node right;
+		T data;
+		
+		Node(T data) {
+			this.data = data;
+			left = null;
+			right = null;
+		}
+		
+		void add(T data) {
+			if (data.compareTo(this.data) <= 0) {
+				if (this.left == null) {
+					this.left = new Node(data);
+				} else {
+					left.add(data);
+				}
+			} else {
+				if (this.right == null) {
+					this.right = new Node(data);
+				} else {
+					right.add(data);
+				}
 			}
-			else {
-				insert(node.left, data);
+		}
+		
+		void inOrderPrint(Node n) {
+			if (n == null) {
+				return;
+			} else {
+				inOrderPrint(n.left);
+				System.out.print(n.data + " ");
+				inOrderPrint(n.right);
 			}
-		} 
-		else {
-			if (node.right == null) {
-				node.right = new BST(data);
+		}
+		
+		boolean isBST(Node n) {
+			if (n == null) {
+				return true;
+			} else {
+				inOrderPrint(n.left);
+				
+				if (lastVisited.data.compareTo(n.data) > 0) {
+					return false;
+				}
+				
+				lastVisited = n;
+				inOrderPrint(n.right);
 			}
-			else {
-				insert(node.right, data);
-			}
+			return true;
 		}
 	}
 	
-	static int getHeight(BST root) {
-		 if (root == null) {
-			 return 0;
-		 }
-		 else {
-			 return 1 + Math.max( getHeight(root.left), getHeight(root.right));
-		 }
-	}
-	
-	// Root, then left, then right
-	static void preorderTraversal(BST root) {
+	void add(T data){
 		if (root == null) {
-			return;
+			root = new Node(data);
+		} else {
+			root.add(data);
 		}
-		System.out.println(root.data.toString());
-		preorderTraversal( root.left );
-		preorderTraversal( root.right );
 	}
 	
-	// Left, then root, then right
-	static void inorderTraversal(BST root) {
-		if (root == null) {
-			return;
+	void BFprint() {
+		LinkedList<Node> q = new LinkedList<Node>();
+		
+		Node dq = root;
+		
+		int a = 1;
+		int b = 0;
+		
+		while (dq != null) {
+			System.out.print(dq.data + " ");
+			
+			if (dq.left != null) {
+				q.add(dq.left);
+				++b;
+			}
+			if (dq.right != null) {
+				q.add(dq.right);
+				++b;
+			}
+			
+			if (--a < 1) {
+				a = b;
+				b = 0;
+				System.out.println();
+			}
+			try {
+				dq = q.removeFirst();
+			} catch (NoSuchElementException ex) {
+				dq = null;
+			}
 		}
-		inorderTraversal( root.left );
-		System.out.println(root.data.toString());
-		inorderTraversal( root.right );
 	}
 	
-	// Left, then right, then root
-	static void postorderTraversal(BST root) {
-		if (root == null) {
-			return;
-		}
-		postorderTraversal( root.left );
-		postorderTraversal( root.right );
-		System.out.println(root.data.toString());
+	void inOrderPrint() {
+		root.inOrderPrint(root);
 	}
-	
-	BST findClosest(T data) {
-		if(data == this.data) {
-			return this;
-		}
-		if (data.compareTo(this.data) < 0) {
-			if (this.left == null) {
-				return this;
-			}
-			else {
-				BST closest = this.left.findClosest(data);
-				return Math.abs(this.data.compareTo(data)) < Math.abs(closest.data.compareTo(data)) ? this : closest;
-			}
-		}
-		else {
-			if (this.right == null) {
-				return this;
-			}
-			else {
-				BST closest = this.right.findClosest(data);
-				return Math.abs(this.data.compareTo(data)) < Math.abs(closest.data.compareTo(data)) ? this : closest;
-			}
-		}
-	}
-
 }
-
-
-
-
-
-
-
-
