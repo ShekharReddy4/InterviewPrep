@@ -48,6 +48,26 @@ public class BST<T extends Comparable> {
 			}
 		}
 		
+		void postOrderPrint(Node n) {
+			if (n == null) {
+				return;
+			} else {
+				inOrderPrint(n.left);
+				inOrderPrint(n.right);
+				System.out.print(n.data + " ");
+			}
+		}
+		
+		void preOrderPrint(Node n) {
+			if (n == null) {
+				return;
+			} else {
+				System.out.print(n.data + " ");
+				inOrderPrint(n.left);
+				inOrderPrint(n.right);
+			}
+		}
+		
 		boolean isBST(Node n) {
 			if (n == null) {
 				return true;
@@ -108,5 +128,16 @@ public class BST<T extends Comparable> {
 	
 	void inOrderPrint() {
 		root.inOrderPrint(root);
+		System.out.println();
+	}
+	
+	void preOrderPrint() {
+		root.preOrderPrint(root);
+		System.out.println();
+	}
+	
+	void postOrderPrint() {
+		root.postOrderPrint(root);
+		System.out.println();
 	}
 }

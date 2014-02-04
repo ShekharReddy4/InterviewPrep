@@ -16,6 +16,8 @@ public class Main {
 		
 		bst.BFprint();
 		bst.inOrderPrint();
+		bst.preOrderPrint();
+		bst.postOrderPrint();
 	}
 
 }

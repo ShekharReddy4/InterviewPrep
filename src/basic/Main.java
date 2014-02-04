@@ -25,6 +25,8 @@ public class Main {
 		System.out.println(dupe(arr));
 		
 		System.out.println(newtonSqrt(612));
+		
+		System.out.println(longestPalindrome("abcbdabcabbacbcaba"));
 	}
 
 	
@@ -135,4 +137,49 @@ public class Main {
 		}
 		return guess;
 	}
+	
+	static String longestPalindrome(String s) {
+		String longest = "";
+		
+		for (int i = 0; i < s.length(); ++i) {
+			int l = i;
+			int r = i;
+			
+			while (isPalin(s, l, r)) {
+				l--; r++;
+			}
+			
+			if (longest.length() < r-l+1) {
+				longest = s.substring(l+1, r);
+			}
+		}
+		
+		for (int i = 0; i < s.length(); ++i) {
+			int l = i;
+			int r = i+1;
+			
+			while (isPalin(s, l, r)) {
+				l--; r++;
+			}
+			if (longest.length() < r-l+1) {
+				longest = s.substring(l+1, r);
+			}
+		}
+		
+		return longest;
+	}
+	
+	static boolean isPalin(String s, int left, int right) {
+		if (left >= 0 && right < s.length()) {
+			return s.charAt(left) == s.charAt(right);
+		}
+		return false;
+	}
 }
+
+
+
+
+
+
+
